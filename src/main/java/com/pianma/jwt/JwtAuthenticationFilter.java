@@ -8,6 +8,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 //스프링 시큐리티에서 UsernamePasswordAuthenticationFilter가 있음.
 // /login 요청해서 username, password 전송하면 (post)
@@ -26,6 +28,23 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         // PrincipalDetailsService가 호출 loadUserByUsername() 함수 실행됨.
         // 3.PrincipalDetails를 세션에 담고
         // 4.JWT토큰을 만들어서 응답해주면됨
+
+
+      System.out.println("JwtAuthenticationFilter 시도중");
+
+      try {
+        BufferedReader br = request.getReader();
+
+        String input = null;
+        while((input = br.readLine()) != null){
+          System.out.println(input);
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      System.out.println("====================");
+
         return super.attemptAuthentication(request, response);
     }
 }
