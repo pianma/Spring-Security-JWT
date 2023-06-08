@@ -22,6 +22,7 @@ public class SecurityConfig {
     private final CorsFilter corsFilter;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
         http.addFilterBefore(new MyFilter3(), BasicAuthenticationFilter.class);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -29,7 +30,7 @@ public class SecurityConfig {
                 .addFilter(corsFilter)
                 .formLogin().disable()
                 .httpBasic().disable()
-                .addFilter(new JwtAuthenticationFilter(AuthenticationManager))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager))
                 .authorizeRequests()
                 .antMatchers("/api/v1/user/**")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
