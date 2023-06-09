@@ -1,5 +1,7 @@
 package com.pianma.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pianma.jwt.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -33,12 +35,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       System.out.println("JwtAuthenticationFilter 시도중");
 
       try {
-        BufferedReader br = request.getReader();
+//        BufferedReader br = request.getReader();
+//
+//        String input = null;
+//        while((input = br.readLine()) != null){
+//          System.out.println(input);
+//        }
+        ObjectMapper om = new ObjectMapper(); //json 클래스 파싱해줌
+        User user = om.readValue(request.getInputStream(), User.class);
 
-        String input = null;
-        while((input = br.readLine()) != null){
-          System.out.println(input);
-        }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
