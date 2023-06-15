@@ -1,6 +1,7 @@
 package com.pianma.jwt.config;
 
 import com.pianma.jwt.JwtAuthenticationFilter;
+import com.pianma.jwt.JwtAuthorizationFilter;
 import com.pianma.jwt.filter.MyFilter1;
 import com.pianma.jwt.filter.MyFilter3;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager))
                 .authorizeRequests()
                 .antMatchers("/api/v1/user/**")
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
